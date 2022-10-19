@@ -1,6 +1,7 @@
 """Models for Blogly."""
 
 from flask_sqlalchemy import SQLAlchemy
+from traitlets import default
 db = SQLAlchemy()
 
 
@@ -20,5 +21,5 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.String(20), nullable=False)
     last_name = db.Column(db.String(20), nullable=False)
-    image_url = db.Column(db.String, nullable=True)
+    img_url = db.Column(db.String, nullable=True, default = 'http://joelburton.com/joel-burton.jpg')
     # TODO: Add check for unique first_name / last_name
