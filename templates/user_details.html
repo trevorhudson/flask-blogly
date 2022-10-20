@@ -5,8 +5,8 @@ content %}
 <image src="{{user.img_url}}"></image>
 <h1>{{ user.first_name }} {{ user.last_name }}</h1>
 <form method="POST" action="/users/{{user.id}}/delete">
-  <a href="/users/{{user.id}}/edit" class="btn">Edit</a>
-  <button type="submit">Delete</button>
+  <a href="/users/{{user.id}}/edit" class="btn btn-primary">Edit</a>
+  <button type="submit" class = 'btn btn-primary'>Delete</button>
 </form>
 
 {% endblock %}

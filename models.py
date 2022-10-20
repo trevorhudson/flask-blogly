@@ -3,7 +3,7 @@
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-
+DEFAULT_IMAGE_URL = 'http://joelburton.com/joel-burton.jpg'
 
 def connect_db(app):
     """Connect to database."""
@@ -21,6 +21,5 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.String(20), nullable=False)
     last_name = db.Column(db.String(20), nullable=False)
-    img_url = db.Column(db.String, nullable=True,
-                        default='http://joelburton.com/joel-burton.jpg')
+    img_url = db.Column(db.String, nullable=True, default = DEFAULT_IMAGE_URL)
     # TODO: Add check for unique first_name / last_name

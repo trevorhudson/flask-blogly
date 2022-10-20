@@ -35,13 +35,13 @@ class UserViewTestCase(TestCase):
         test_user = User(
             first_name="test_first",
             last_name="test_last",
-            image_url=None,
+            img_url=None,
         )
 
         second_user = User(
             first_name="test_first_two",
             last_name="test_last_two",
-            image_url=None,
+            img_url=None,
         )
 
         db.session.add_all([test_user, second_user])
@@ -64,3 +64,21 @@ class UserViewTestCase(TestCase):
             html = resp.get_data(as_text=True)
             self.assertIn("test_first", html)
             self.assertIn("test_last", html)
+            breakpoint()
+
+    def test_new_user_page(self):
+        with self.client as c:
+            resp = c.get("users/new")
+            self.assertEqual(resp.status_code, 200)
+            html = resp.get_data(as_text=True)
+            self.assertIn("COMMENT FOR TESTING PURPOSES", html)
+
+    def test_add_new_user(self):
+        with self.client as c:
+            resp = c.post("users/new")
+            print(User.query.all())
+            self.assertEqual(resp.status_code, 200)
+            breakpoint()
+            self.assertTrue(User.query.filter_by(first_name='test_first').one_or_none())
+            # User.query.filter_by(first_name='test_first_two').one_or_none()
+
