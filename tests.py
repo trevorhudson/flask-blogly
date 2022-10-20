@@ -114,7 +114,8 @@ class UserViewTestCase(TestCase):
                          }
 
             user_id = User.query.first().id
-            resp = c.post(f"users/{user_id}/edit", data=test_user, follow_redirects=True)
+            resp = c.post(f"users/{user_id}/edit",
+                          data=test_user, follow_redirects=True)
 
             self.assertEqual(resp.status_code, 200)
 

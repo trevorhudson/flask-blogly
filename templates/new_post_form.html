@@ -1,0 +1,13 @@
+{% extends 'base.html' %} {% block title %} Add Post For {{user.first_name}}
+{{user.last_name}} {% endblock %} {% block content %}
+
+<h1>Add Post For {{user.first_name}} {{user.last_name}}</h1>
+
+<form method="POST">
+  <p>Title: <input name="post_title" placeholder="Enter title" /></p>
+  <p>Content: <input name="post_content" placeholder="Enter Content" /></p>
+  <a href="/users/{{user.id}}" class="btn btn-primary">Cancel</a>
+  <button class="btn btn-primary">Add</button>
+</form>
+
+{% endblock %}

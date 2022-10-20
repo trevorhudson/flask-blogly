@@ -1,16 +1,15 @@
-{% extends 'base.html' %}
-
-{% block title %} User Listing {% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %} User Listing {% endblock %} {% block
+content %}
 
 <h1>Users</h1>
 <ul>
   <!-- Change names  -->
   {% for user in users %}
-  <li><a href="/users/{{ user.id }}">{{ user.first_name }} {{user.last_name}} </a></li>
+  <li>
+    <a href="/users/{{ user.id }}">{{ user.first_name }} {{user.last_name}} </a>
+  </li>
   {% endfor %}
 </ul>
-<a href='/users/new' class='btn btn-primary'>Add User</a>
+<a href="/users/new" class="btn btn-primary">Add User</a>
 
 {% endblock %}
