@@ -1,10 +1,12 @@
 from unittest import TestCase
 
+# means running this code in app.py ("***app.running")
 from app import app, db
-from models import DEFAULT_IMAGE_URL, User
+from models import DEFAULT_IMAGE_URL, User, connect_db
 
 # Let's configure our app to use a different database for tests
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///blogly_test"
+
 
 # Make Flask errors be real errors, rather than HTML pages with error info
 app.config['TESTING'] = True
@@ -16,7 +18,9 @@ app.config['DEBUG_TB_HOSTS'] = ['dont-show-debug-toolbar']
 # once for all tests --- in each test, we'll delete the data
 # and create fresh new clean test data
 
+connect_db(app)
 db.create_all()
+# breakpoint()
 
 
 class UserViewTestCase(TestCase):
@@ -55,18 +59,22 @@ class UserViewTestCase(TestCase):
 
     def tearDown(self):
         """Clean up any fouled transaction."""
+
         db.session.rollback()
 
     def test_list_users(self):
+        """ Check if route renders correct landing page """
+
         with self.client as c:
             resp = c.get("/users")
             self.assertEqual(resp.status_code, 200)
             html = resp.get_data(as_text=True)
             self.assertIn("test_first", html)
             self.assertIn("test_last", html)
-            breakpoint()
 
     def test_new_user_page(self):
+        """ Check route renders correct new user form """
+
         with self.client as c:
             resp = c.get("users/new")
             self.assertEqual(resp.status_code, 200)
@@ -74,11 +82,37 @@ class UserViewTestCase(TestCase):
             self.assertIn("COMMENT FOR TESTING PURPOSES", html)
 
     def test_add_new_user(self):
-        with self.client as c:
-            resp = c.post("users/new")
-            print(User.query.all())
-            self.assertEqual(resp.status_code, 200)
-            breakpoint()
-            self.assertTrue(User.query.filter_by(first_name='test_first').one_or_none())
-            # User.query.filter_by(first_name='test_first_two').one_or_none()
+        """ Create a new user and check if redirects and 
+            users database contains correct information 
+        """
 
+        with self.client as c:
+            test_user = {"first_name": 'testing first_name',
+                         "last_name": 'testing last_name',
+                         "img_url": DEFAULT_IMAGE_URL
+                         }
+
+            resp = c.post("users/new", data=test_user)
+            # print(User.query.all(), "___________test one___________")
+            # returns [<Users 40>]
+            self.assertEqual(resp.status_code, 302)
+
+            self.assertTrue(User.query.filter_by(
+                first_name='testing first_name').one_or_none())
+
+    def test_edit_user(self):
+        """ Edit user information and check if users database is 
+            updated and route redirects  
+        """
+
+        with self.client as c:
+            test_user = {"first_name": 'edit first_name',
+                         "last_name": 'edit last_name',
+                         "img_url": DEFAULT_IMAGE_URL
+                         }
+            user_id = User.query.first().id
+
+            resp = c.post(f"users/{user_id}/edit", data=test_user)
+            self.assertEqual(resp.status_code, 302)
+            self.assertTrue(User.query.get(
+                user_id).first_name == 'edit first_name')

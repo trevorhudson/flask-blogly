@@ -11,6 +11,9 @@ app.config['SQLALCHEMY_ECHO'] = True
 
 connect_db(app)
 
+# Shows up even when calling tests.py
+# print("***app.running")
+
 
 @app.get("/")
 def show_homepg():
