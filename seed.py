@@ -23,7 +23,8 @@ db.session.add(trevez)
 
 test_post = Post(
     title='Test Post',
-    content='Contents of Test Post'
+    content='Contents of Test Post',
+    user_id = 1
 )
 
 db.session.add(test_post)

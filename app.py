@@ -2,7 +2,7 @@
 # from django.shortcuts import render
 from flask import Flask, request, redirect, render_template
 from sqlalchemy import null
-from models import db, connect_db, User, DEFAULT_IMAGE_URL
+from models import db, connect_db, User, Post, DEFAULT_IMAGE_URL
 
 
 app = Flask(__name__)
@@ -89,7 +89,7 @@ def process_edit_user_form(user_id):
 
     user = User.query.get_or_404(user_id)
 
-    user.first_name = first_name
+    user.first_namex = first_name
     user.last_name = last_name
     user.img_url = img_url
 
@@ -107,3 +107,46 @@ def delete_user(user_id):
     db.session.commit()
 
     return redirect("/users")
+
+
+
+# POST ROUTES
+
+@app.get("/users/<int:user_id>/posts/new")
+def show_add_post_form(user_id):
+    """ Show form for adding a new post """
+    user = User.query.get_or_404(user_id)
+
+    return render_template("new_post_form.html", user=user)
+
+
+@app.post("/users/<int:user_id>/posts/new")
+def process_add_post_form(user_id):
+
+    user = User.query.get_or_404(user_id)
+
+    title = request.form.get('post_title')
+    content = request.form.get('post_content')
+
+    new_post = Post(
+        title=title,
+        content=content,
+        user_id=user_id)
+
+    db.session.add(new_post)
+    db.session.commit()
+
+    return redirect(f"/users/{user_id}")
+
+@app.get("/posts/<int:post_id>")
+def show_post_details(post_id):
+    """ Shows detail page for a post"""
+    post = Post.query.get_or_404(post_id)
+    user = post.user_id
+
+    return render_template("post_details.html", post=post, user=user)
+
+
+
+
+
