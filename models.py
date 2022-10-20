@@ -22,5 +22,14 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     first_name = db.Column(db.String(20), nullable=False)
     last_name = db.Column(db.String(20), nullable=False)
-    img_url = db.Column(db.String, nullable=True, default=DEFAULT_IMAGE_URL)
+    img_url = db.Column(db.String, nullable=False)
     # TODO: Add check for unique first_name / last_name
+
+
+
+
+# POSTS
+#   POST ID
+#   POST TITLE
+#   POST CONTENT
+#   post created_at

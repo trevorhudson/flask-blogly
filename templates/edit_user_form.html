@@ -1,15 +1,19 @@
-{% extends 'base.html' %} {% block title %} Edit a User {% endblock %} {% block
-content %}
+{% extends 'base.html' %}
+
+{% block title %} Edit a User {% endblock %}
+
+{% block content %}
 
 <h1>Edit A User</h1>
+
 <form method="POST">
   <p>
-    First Name: <input name="first_name" placeholder="Enter a first name" />
+    First Name: <input name="first_name" placeholder="Enter a first name" value = "{{user.first_name}}"/>
   </p>
-  <p>Last Name: <input name="last_name" placeholder="Enter a last name" /></p>
+  <p>Last Name: <input name="last_name" placeholder="Enter a last name" value = "{{user.last_name}}"/></p>
   <p>Image URL: <input name="img_url" placeholder="Provide Image Url" /></p>
   <a href="/users" class="btn btn-primary">Cancel</a>
-  <button class = "btn btn-primary">Save</button>
+  <button class="btn btn-primary">Save</button>
 </form>
 
 {% endblock %}

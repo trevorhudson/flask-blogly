@@ -82,8 +82,8 @@ class UserViewTestCase(TestCase):
             self.assertIn("COMMENT FOR TESTING PURPOSES", html)
 
     def test_add_new_user(self):
-        """ Create a new user and check if redirects and 
-            users database contains correct information 
+        """ Create a new user and check if redirects and
+            users database contains correct information
         """
 
         with self.client as c:
@@ -92,17 +92,19 @@ class UserViewTestCase(TestCase):
                          "img_url": DEFAULT_IMAGE_URL
                          }
 
-            resp = c.post("users/new", data=test_user)
-            # print(User.query.all(), "___________test one___________")
-            # returns [<Users 40>]
-            self.assertEqual(resp.status_code, 302)
+            resp = c.post("users/new", data=test_user, follow_redirects=True)
 
-            self.assertTrue(User.query.filter_by(
-                first_name='testing first_name').one_or_none())
+            html = resp.get_data(as_text=True)
+            self.assertEqual(resp.status_code, 200)
+
+            self.assertIn("testing first_name", html)
+
+            # self.assertTrue(User.query.filter_by(
+            #     first_name='testing first_name').one_or_none())
 
     def test_edit_user(self):
-        """ Edit user information and check if users database is 
-            updated and route redirects  
+        """ Edit user information and check if users database is
+            updated and route redirects
         """
 
         with self.client as c:
@@ -110,9 +112,17 @@ class UserViewTestCase(TestCase):
                          "last_name": 'edit last_name',
                          "img_url": DEFAULT_IMAGE_URL
                          }
-            user_id = User.query.first().id
 
-            resp = c.post(f"users/{user_id}/edit", data=test_user)
-            self.assertEqual(resp.status_code, 302)
-            self.assertTrue(User.query.get(
-                user_id).first_name == 'edit first_name')
+            user_id = User.query.first().id
+            resp = c.post(f"users/{user_id}/edit", data=test_user, follow_redirects=True)
+
+            self.assertEqual(resp.status_code, 200)
+
+            html = resp.get_data(as_text=True)
+            self.assertIn("edit first_name", html)
+
+            # TODO: use for testing database query
+            # user_id = User.query.first().id
+            # self.assertEqual(resp.status_code, 302)
+            # self.assertTrue(User.query.get(
+            #     user_id).first_name == 'edit first_name')
