@@ -8,14 +8,13 @@ content %}
   <li><a href="/{{ pet.id }}">{{ pet.name }}</a></li>
   {% endfor %}
 </ul>
-<h2>Add Pet</h2>
 <form method="POST">
   <p>
     First Name: <input name="first_name" placeholder="Enter a first name" />
   </p>
   <p>Last Name: <input name="last_name" placeholder="Enter a last name" /></p>
   <p>Image URL: <input name="img_url" placeholder="Provide Image Url" /></p>
-  <button class = 'btn'>Add</button>
+  <button class="btn">Add</button>
 </form>
 
 {% endblock %}

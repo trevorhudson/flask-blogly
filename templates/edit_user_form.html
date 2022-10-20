@@ -2,13 +2,6 @@
 content %}
 
 <h1>Edit A User</h1>
-<ul>
-  <!-- Change names  -->
-  {% for pet in pets %}
-  <li><a href="/{{ pet.id }}">{{ pet.name }}</a></li>
-  {% endfor %}
-</ul>
-<h2>Add Pet</h2>
 <form method="POST">
   <p>
     First Name: <input name="first_name" placeholder="Enter a first name" />

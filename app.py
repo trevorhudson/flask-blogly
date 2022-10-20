@@ -33,33 +33,63 @@ def show_add_user_form():
 
 @app.post("/users/new")
 def add_new_user():
-#Add a new user to the site
+    # Add a new user to the site
 
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
     img_url = request.form.get('img_url')
 
     new_user = User(
-        first_name = first_name,
-        last_name = last_name,
-        img_url = img_url)
+        first_name=first_name,
+        last_name=last_name,
+        img_url=img_url)
 
     db.session.add(new_user)
     db.session.commit()
 
     return redirect("/users")
 
+
 @app.get("/users/<int:user_id>")
 def show_user_details(user_id):
 
     user = User.query.get_or_404(user_id)
+    print(user, "_____________________user______________")
 
     return render_template("user_details.html", user=user)
 
 
+@app.get("/users/<int:user_id>/edit")
+def show_edit_user_pg(user_id):
+
+    user = User.query.get_or_404(user_id)
+    return render_template("edit_user_form.html", user=user)
 
 
+@app.post("/users/<int:user_id>/edit")
+def process_edit_user_form(user_id):
+
+    first_name = request.form.get('first_name')
+    last_name = request.form.get('last_name')
+    img_url = request.form.get('img_url')
+
+    user = User.query.get_or_404(user_id)
+
+    # db.session.add()
+
+    user.first_name = first_name
+    user.last_name = last_name
+    user.img_url = img_url
+    db.session.commit()
+
+    return redirect("/users")
 
 
+@app.post("/users/<int:user_id>/delete")
+def delete_user(user_id):
+    user = User.query.get_or_404(user_id)
 
+    db.session.delete(user)
+    db.session.commit()
 
+    return redirect("/users")
