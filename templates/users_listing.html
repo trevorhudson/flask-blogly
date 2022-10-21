@@ -2,15 +2,19 @@
 {% block title %} User Listing {% endblock %}
 {% block content %}
 
-<h1>Users</h1>
-<ul>
-  <!-- Change names  -->
-  {% for user in users %}
-  <li>
-    <a href="/users/{{ user.id }}">{{ user.first_name }} {{user.last_name}} </a>
-  </li>
-  {% endfor %}
-</ul>
-<a href="/users/new" class="btn btn-primary">Add User</a>
+<div class="form-group row mb-2">
+  <div class="col-sm-4">
+    <h1>Users</h1>
+    <ul>
+      <!-- Change names  -->
+      {% for user in users %}
 
+      <li>
+        <a href="/users/{{ user.id }}">{{ user.first_name }} {{user.last_name}} </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <a href="/users/new" class="btn btn-primary">Add User</a>
+  </div>
+</div>
 {% endblock %}

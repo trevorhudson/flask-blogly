@@ -1,21 +1,35 @@
 {% extends 'base.html' %} {% block title %} User Details {% endblock %} {% block
 content %}
 
-<image src="{{user.img_url}}"></image>
+<div class="form-group row mb-2">
+  <div class="col-sm-4">
+    <image src="{{user.img_url}}"></image>
 
-<h1>{{ user.first_name }} {{ user.last_name }}</h1>
+    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+
+  </div>
+</div>
 
 <form method="POST" action="/users/{{user.id}}/delete">
-  <a href="/users/{{user.id}}/edit" class="btn btn-primary">Edit</a>
-  <button type="submit" class="btn btn-primary">Delete</button>
+  <div class="form-group row mb-2">
+    <div class="col-sm-4">
+
+      <a href="/users/{{user.id}}/edit" class="btn btn-primary">Edit</a>
+      <button type="submit" class="btn btn-danger">Delete</button>
+    </div>
+  </div>
 </form>
 
-<h2>Posts</h2>
-<ul>
-  {% for post in user.posts %}
-  <li><a href="/posts/{{post.id}}">{{post.title}}</a></li>
-  {% endfor %}
-</ul>
-<a href="/users/{{user.id}}/posts/new" class="btn btn-primary">Add Post</a>
+<div class="form-group row mb-2">
+  <div class="col-sm-4">
+    <h2>Posts</h2>
+    <ul>
+      {% for post in user.posts %}
+      <li><a href="/posts/{{post.id}}">{{post.title}}</a></li>
+      {% endfor %}
+    </ul>
+    <a href="/users/{{user.id}}/posts/new" class="btn btn-primary">Add Post</a>
+  </div>
+</div>
 
 {% endblock %}

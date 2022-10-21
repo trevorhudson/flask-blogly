@@ -3,17 +3,40 @@
 {% block title %} Edit a User {% endblock %}
 
 {% block content %}
+<div class="form-group row mb-2">
 
 <h1>Edit A User</h1>
 
+</div>
 <form method="POST">
-  <p>
-    First Name: <input name="first_name" placeholder="Enter a first name" value = "{{user.first_name}}"/>
-  </p>
-  <p>Last Name: <input name="last_name" placeholder="Enter a last name" value = "{{user.last_name}}"/></p>
-  <p>Image URL: <input name="img_url" placeholder="Provide Image Url" /></p>
-  <a href="/users" class="btn btn-primary">Cancel</a>
-  <button class="btn btn-primary">Save</button>
+  <div class="form-group row mb-2">
+    <div class="col-sm-4">
+      <label for="first_name">First Name:</label>
+      <input name="first_name" id="first_name" class="form-control" placeholder="Enter a first name"
+        value="{{user.first_name}}" />
+    </div>
+  </div>
+  <div class="form-group row mb-2">
+    <div class="col-sm-4">
+      <label for="lsat_name">Last Name:</label>
+      <input name="last_name" id="first_name" class="form-control" placeholder="Enter a last name"
+        value="{{user.last_name}}" />
+    </div>
+  </div>
+
+  <div class="form-group row mb-2">
+    <div class="col-sm-4">
+      <label for="img_url">Image URL:</label>
+      <input name="img_url" id="first_name" class="form-control" placeholder="Provide Image Url" /></p>
+
+    </div>
+  </div>
+  <div class="form-group row mb-2">
+    <div class="col-sm-4">
+      <a href="/users" class="btn btn-secondary">Cancel</a>
+      <button class="btn btn-success">Save</button>
+    </div>
+  </div>
 </form>
 
 {% endblock %}

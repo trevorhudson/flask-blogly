@@ -1,17 +1,26 @@
 {% extends 'base.html' %}
 {% block title %} Post Details {% endblock %}
- {% block content %}
+{% block content %}
 
-<h1>{{post.title}}</h1>
+<div class="form-group row mb-2">
+  <div class="col-sm-4">
+    <h1>{{post.title}}</h1>
 
-<p>{{post.content}}</p>
+    <p>{{post.content}}</p>
 
-<p>By {{user.first_name}} {{user.last_name}}</p>
+    <p>By {{user.first_name}} {{user.last_name}}</p>
+
+  </div>
+</div>
 
 <form method="POST" action="/posts/{{post.id}}/delete">
-  <a href="/users/{{user.id}}" class="btn btn-primary">Cancel</a>
-  <a href="/posts/{{post.id}}/edit" class="btn btn-primary">Edit</a>
-  <button class="btn btn-primary">Delete</button>
+  <div class="form-group row mb-2">
+    <div class="col-sm-4">
+      <a href="/users/{{user.id}}" class="btn btn-secondary">Cancel</a>
+      <a href="/posts/{{post.id}}/edit" class="btn btn-success">Edit</a>
+      <button class="btn btn-danger">Delete</button>
+    </div>
+  </div>
 </form>
 
 {% endblock %}

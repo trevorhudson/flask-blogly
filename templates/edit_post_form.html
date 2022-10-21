@@ -1,28 +1,36 @@
 {% extends 'base.html' %} {% block title %} Edit Post {% endblock %} {% block
 content %}
 
-<h1>Edit A Post</h1>
-
+<div class="form-group row mb-2">
+  <div class="col-sm-4">
+    <h1>Edit A Post</h1>
+  </div>
+</div>
 <form method="POST">
-  <p>
-    Title:
-    <input
-      name="post_title"
-      placeholder="Enter a title"
-      value="{{post.title}}"
-    />
-  </p>
-  <p>
-    Content:
-    <input
-      name="post_content"
-      placeholder="Enter content"
-      value="{{post.content}}"
-    />
-  </p>
 
-  <a href="/users/{{user.id}}" class="btn btn-primary">Cancel</a>
-  <button class="btn btn-primary">Edit</button>
+  <div class="form-group row mb-2">
+    <div class="col-sm-4">
+      <label for="post_title">Title:</label>
+      <input name="post_title" id="post_title" class="form-control" placeholder="Enter a title"
+        value="{{post.title}}" />
+    </div>
+
+  </div>
+  <div class="form-group row mb-2">
+    <div class="col-sm-4">
+      <label for="post_content">Content:</label>
+      <textarea name="post_content" id="post_content" class="form-control" type="text" class="word-input"
+        placeholder="Enter content" value="{{post.content}}"></textarea>
+    </div>
+  </div>
+
+  <div class="form-group row mb-2">
+    <div class="col-sm-4">
+      <a href="/users/{{user.id}}" class="btn btn-secondary">Cancel</a>
+      <button class="btn btn-success">Edit</button>
+    </div>
+  </div>
+
 </form>
 
 {% endblock %}

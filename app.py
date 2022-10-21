@@ -48,6 +48,10 @@ def add_new_user():
     if not img_url:
         img_url = DEFAULT_IMAGE_URL
 
+    if not (first_name or last_name):
+        return render_template("new_user_form.html")
+
+
     new_user = User(
         first_name=first_name,
         last_name=last_name,
@@ -127,15 +131,18 @@ def process_add_post_form(user_id):
     title = request.form.get('post_title')
     content = request.form.get('post_content')
 
+    if not title:
+        title = 'untitled post'
+
     new_post = Post(
         title=title,
         content=content,
-        user_id=user_id)
+        user_id=user.id)
 
     db.session.add(new_post)
     db.session.commit()
 
-    return redirect(f"/users/{user_id}")
+    return redirect(f"/users/{user.id}")
 
 
 @app.get("/posts/<int:post_id>")
@@ -171,7 +178,7 @@ def process_edit_post_form(post_id):
 
     db.session.commit()
 
-    return redirect(f"/posts/{post_id}")
+    return redirect(f"/posts/{post.id}")
 
 
 @app.post("/posts/<int:post_id>/delete")
