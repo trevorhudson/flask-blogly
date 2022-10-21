@@ -89,7 +89,7 @@ def process_edit_user_form(user_id):
 
     user = User.query.get_or_404(user_id)
 
-    user.first_namex = first_name
+    user.first_name = first_name
     user.last_name = last_name
     user.img_url = img_url
 
@@ -107,7 +107,6 @@ def delete_user(user_id):
     db.session.commit()
 
     return redirect("/users")
-
 
 
 # POST ROUTES
@@ -138,15 +137,51 @@ def process_add_post_form(user_id):
 
     return redirect(f"/users/{user_id}")
 
+
 @app.get("/posts/<int:post_id>")
 def show_post_details(post_id):
     """ Shows detail page for a post"""
     post = Post.query.get_or_404(post_id)
-    user = post.user_id
+    user = User.query.get(post.user_id)
 
     return render_template("post_details.html", post=post, user=user)
 
 
+@app.get("/posts/<int:post_id>/edit")
+def show_edit_post_form(post_id):
+    """ Show edit post form """
+
+    post = Post.query.get_or_404(post_id)
+    user = User.query.get(post.user_id)
+
+    return render_template("edit_post_form.html", post=post, user=user)
 
 
+@app.post("/posts/<int:post_id>/edit")
+def process_edit_post_form(post_id):
+    """ updates post details with form input"""
 
+    post = Post.query.get_or_404(post_id)
+
+    title = request.form.get('post_title')
+    content = request.form.get('post_content')
+
+    post.title = title
+    post.content = content
+
+    db.session.commit()
+
+    return redirect(f"/posts/{post_id}")
+
+
+@app.post("/posts/<int:post_id>/delete")
+def delete_post(post_id):
+    """permanently deletes post from the database"""
+
+    post = Post.query.get_or_404(post_id)
+    user = User.query.get(post.user_id)
+
+    db.session.delete(post)
+    db.session.commit()
+
+    return redirect(f"/users/{user.id}")
