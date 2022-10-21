@@ -26,15 +26,9 @@ class User(db.Model):
     last_name = db.Column(db.String(20), nullable=False)
     img_url = db.Column(db.String, nullable=False)
 
-    posts = db.relationship('Post', backref='user')
+    posts = db.relationship('Post', backref='user') # add comment to User
     # TODO: Add check for unique first_name / last_name
 
-
-# POSTS
-#   POST ID
-#   POST TITLE
-#   POST CONTENT
-#   post created_at
 
 class Post(db.Model):
     '''Individual Post'''

@@ -2,7 +2,7 @@ from unittest import TestCase
 
 # means running this code in app.py ("***app.running")
 from app import app, db
-from models import DEFAULT_IMAGE_URL, User, connect_db
+from models import DEFAULT_IMAGE_URL, User, Post, connect_db
 
 # Let's configure our app to use a different database for tests
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///blogly_test"
@@ -32,6 +32,7 @@ class UserViewTestCase(TestCase):
         # As you add more models later in the exercise, you'll want to delete
         # all of their records before each test just as we're doing with the
         # User model below.
+        Post.query.delete()
         User.query.delete()
 
         self.client = app.test_client()
@@ -48,7 +49,17 @@ class UserViewTestCase(TestCase):
             img_url=None,
         )
 
-        db.session.add_all([test_user, second_user])
+        first_post = Post(
+            title="test_post_one",
+            content="test_post_two",
+        )
+
+        second_post = Post(
+            title="test_first_two",
+            content="test_last_two",
+        )
+
+        db.session.add_all([test_user, second_user, first_post, second_post])
         db.session.commit()
 
         # We can hold onto our test_user's id by attaching it to self (which is
@@ -99,8 +110,6 @@ class UserViewTestCase(TestCase):
 
             self.assertIn("testing first_name", html)
 
-            # self.assertTrue(User.query.filter_by(
-            #     first_name='testing first_name').one_or_none())
 
     def test_edit_user(self):
         """ Edit user information and check if users database is
@@ -127,3 +136,56 @@ class UserViewTestCase(TestCase):
             # self.assertEqual(resp.status_code, 302)
             # self.assertTrue(User.query.get(
             #     user_id).first_name == 'edit first_name')
+
+    def test_show_new_post_form(self):
+        """ Check route renders correct new post form """
+
+        with self.client as c:
+
+            user = User.query.first()
+
+            resp = c.get(f"users/{user.id}/posts/new")
+            self.assertEqual(resp.status_code, 200)
+            html = resp.get_data(as_text=True)
+            self.assertIn("COMMENT FOR TESTING PURPOSES", html)
+
+    def test_add_new_post(self):
+        """ Create a new post, redirects back to the user page.
+
+        """
+
+        with self.client as c:
+
+            user = User.query.first()
+
+            test_post = {"post_title": 'TEST_TITLE',
+                         "post_content": 'TEST_CONTENT',
+                         }
+
+            resp = c.post(f"users/{user.id}/posts/new",
+                          data=test_post, follow_redirects=True)
+
+            html = resp.get_data(as_text=True)
+            self.assertEqual(resp.status_code, 200)
+
+            self.assertIn("TEST_TITLE", html)
+
+    def test_edit_post(self):
+        """ Create a new post, redirects back to the user page.
+        """
+
+        with self.client as c:
+
+            user = User.query.first()
+            test_post = {"post_title": 'TEST_EDIT_TITLE',
+                         "post_content": 'TEST_EDIT_CONTENT',
+                         "user_id": user.id
+                         }
+
+            resp = c.post(f"users/{user.id}/posts/new",
+                          data=test_post, follow_redirects=True)
+
+            html = resp.get_data(as_text=True)
+            self.assertEqual(resp.status_code, 200)
+
+            self.assertIn("TEST_EDIT_TITLE", html)
