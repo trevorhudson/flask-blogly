@@ -9,7 +9,7 @@
 <div class="form-group row mb-2">
 
 
-    <h1>Add Post For {{user.first_name}} {{user.last_name}}</h1>
+    <h1>Add Post For {{user.full_name}}</h1>
 
 
   <div class="col-sm-4">
@@ -29,7 +29,7 @@
 
 <div class="form-group row mb-2">
   <div class="col-sm-4">
-    <a href="/users/{{user.id}}" class="btn btn-secondary">Cancel</a>
+    <a href="/users/{{user.id}}" class="btn btn-outline-primary">Cancel</a>
     <button class="btn btn-success">Post</button>
   </div>
 </div>

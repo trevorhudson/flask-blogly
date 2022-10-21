@@ -29,6 +29,12 @@ class User(db.Model):
     posts = db.relationship('Post', backref='user') # add comment to User
     # TODO: Add check for unique first_name / last_name
 
+    @property
+    def full_name(self):
+        ''' return full name of self '''
+
+        return f"{self.first_name} {self.last_name}"
+
 
 class Post(db.Model):
     '''Individual Post'''
