@@ -1,7 +1,0 @@
- id |   title   |        content        |         created_at         | user_id | id | first_name | last_name |                img_url                
-----+-----------+-----------------------+----------------------------+---------+----+------------+-----------+---------------------------------------
-    |           |                       |                            |         |  1 | Joel       | Burton    | http://joelburton.com/joel-burton.jpg
-    |           |                       |                            |         |  2 | Trevor     | Ezra      | http://joelburton.com/joel-burton.jpg
-  1 | Test Post | Contents of Test Post | 2022-10-20 15:34:47.976698 |         |    |            |           | 
-(3 rows)
-
